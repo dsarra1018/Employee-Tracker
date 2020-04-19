@@ -12,3 +12,15 @@ CREATE TABLE department (
     PRIMARY KEY(id)
 );
 
+-- Creates the table "role" within employee_tracker_db --
+CREATE TABLE role (
+    id INT AUTO_INCREMENT,
+    title VARCHAR(30),
+    salary DECIMAL(10, 2),
+    department_id INT,
+    INDEX dept_ind (department_id),
+    FOREIGN KEY (department_id)
+        REFERENCES department(id)
+        ON DELETE CASCADE,
+    PRIMARY KEY(id)
+);
