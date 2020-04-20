@@ -29,7 +29,7 @@ function optionFunction() {
                 break;
             case 'View All Employees by Department':
                 viewEmployeeByDept();
-                //optionFunction();
+                optionFunction();
                 break;
             case 'View All Employees by Roles':
                 console.log(option);
@@ -81,10 +81,11 @@ function viewAllEmployee() {
 
 // Allows the user to view all the employees by department on the database
 function viewEmployeeByDept() {
-    inquirer.prompt(deptPrompt).then( ({dept}) => {
-        // do something
-    })
-}
+    connection.query("SELECT employee.first_name, employee.last_name FROM employee LEFT JOIN role ON role.id = employee.role_id LEFT JOIN department ON role.department_id = department.id ORDER BY department.id", (err, res) => {
+        if (err) throw err;
+        console.table(res);
+    });
+};
 
 // Allows the user to view all the departments on the database
 function viewAllDept() {
@@ -111,14 +112,5 @@ const optionsPrompt = [
         choices: ['View All Employees', 'View All Employees by Department', 'View All Employees by Roles', 'View All Employees by Manager', 'View All Department', 'View All Roles', new inquirer.Separator(), 'Add Employee', 'Add Roles', 'Add Department', new inquirer.Separator(), 'Update Roles', new inquirer.Separator(), 'Exit']
     }
 ];
-
-const deptPrompt = [
-    {
-        type: 'list', 
-        name: 'option',
-        message: 'Which department would you like to view?',
-        choices: ['Sales', 'Engineering', 'Finance', 'Legal']
-    }
-]
 
 employeeTracker();
