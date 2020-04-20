@@ -17,7 +17,9 @@ function employeeTracker() {
     
 };
 
-// Function
+// Functions
+
+// Prompts the user to select an action
 function optionFunction() {
     inquirer.prompt(optionsPrompt).then( ({option}) => {
         switch(option) {
@@ -38,7 +40,7 @@ function optionFunction() {
                 optionFunction();
                 break;
             case 'View All Department':
-                console.log(option);
+                viewAllDept();
                 optionFunction();
                 break;
             case 'View All Roles':
@@ -69,12 +71,22 @@ function optionFunction() {
     });
 };
 
+// Allows the user to view all the employees on the database
 function viewAllEmployee() {
     connection.query('SELECT * FROM employee', (err, res) => {
         if (err) throw err;
         console.table(res);
     });
 };
+
+// Allows the user to view all the departments on the database
+function viewAllDept() {
+    connection.query('SELECT * FROM department', (err, res) => {
+        if (err) throw err;
+        console.table(res);
+    });
+}
+
 
 
 
