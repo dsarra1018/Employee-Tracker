@@ -30,8 +30,7 @@ function optionFunction() {
                 viewEmployeeByDept();
                 break;
             case 'View All Employees by Roles':
-                console.log(option);
-                optionFunction();
+                viewEmployeeByRole();
                 break;
             case 'View All Employees by Manager':
                 console.log(option);
@@ -97,7 +96,7 @@ function viewEmployeeByDept() {
             let id;
 
             for(let i = 0; i < dept_arr.length; i++) {
-                if (dept_arr[i] === department) {
+                if(dept_arr[i] === department) {
                     id = i + 1;
 
                 };
@@ -115,7 +114,39 @@ function viewEmployeeByDept() {
 
 // Allows the user to view all the employees by roles on the database
 function viewEmployeeByRole() {
-    connection.query('SELECT title')
+    connection.query('SELECT title FROM role', (err, res) => {
+        if (err) throw err;
+
+        const role_arr = [];
+
+        for(let i = 0; i < res.length; i++) {
+            role_arr.push(res[i].title);
+        };
+
+        inquirer.prompt([
+            {
+                type: 'list',
+                name: 'role',
+                message: 'Which role would you like to view',
+                choices: role_arr
+            }
+        ]).then(({role}) => {
+            let id;
+
+            for(let i = 0; i < role_arr.length; i++) {
+                if(role_arr[i] === role) {
+                    id = i + 1;
+                };
+            };
+
+            connection.query('SELECT first_name, last_name FROM employee LEFT JOIN role ON role.id = employee.role_id WHERE role.id = ' + [id], (err, res) => {
+                if (err) throw err;
+                console.log(role + ":");
+                console.table(res);
+                optionFunction();
+            })
+        })
+    })
 }
 
 // Allows the user to view all the departments on the database
