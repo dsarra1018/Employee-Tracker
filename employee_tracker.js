@@ -14,7 +14,6 @@ function employeeTracker() {
 
     // Prompts user for action
     optionFunction();
-    
 };
 
 // Functions
@@ -33,8 +32,7 @@ function optionFunction() {
                 viewEmployeeByRole();
                 break;
             case 'View All Employees by Manager':
-                console.log(option);
-                optionFunction();
+                viewEmployeeByManager();
                 break;
             case 'View All Department':
                 viewAllDept();
@@ -144,10 +142,35 @@ function viewEmployeeByRole() {
                 console.log(role + ":");
                 console.table(res);
                 optionFunction();
-            })
-        })
-    })
-}
+            });
+        });
+    });
+};
+
+// Allows the user to view all employees by manager on the database
+function viewEmployeeByManager() {
+    connection.query('SELECT first_name, id FROM employee WHERE employee.manager_id IS NULL', (err, res) => {
+        if (err) throw err;
+        
+        const manager_arr = [];
+
+        for(let i =0; i < res.length; i++) {
+            manager_arr.push(res[i].first_name);
+        };
+
+        inquirer.prompt([
+            {
+                type: 'list',
+                name: 'manager',
+                message: 'Which manager would you like to view?',
+                choices: manager_arr
+            }
+        ]).then(({manager}) => {
+            console.log(manager);
+            optionFunction();
+        });
+    });
+};
 
 // Allows the user to view all the departments on the database
 function viewAllDept() {
