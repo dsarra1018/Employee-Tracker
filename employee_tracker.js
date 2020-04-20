@@ -77,10 +77,6 @@ function viewAllEmployee() {
 
 // Allows the user to view all the employees by department on the database
 function viewEmployeeByDept() {
-    // connection.query("SELECT employee.first_name, employee.last_name FROM employee LEFT JOIN role ON role.id = employee.role_id LEFT JOIN department ON role.department_id = department.id ORDER BY department.id", (err, res) => {
-    //     if (err) throw err;
-    //     console.table(res);
-    // });
     connection.query('SELECT name from department', (err, res) => {
         if (err) throw err;
         
@@ -109,13 +105,18 @@ function viewEmployeeByDept() {
 
             connection.query('SELECT first_name, last_name, title, salary FROM employee LEFT JOIN role ON role.id = employee.role_id LEFT JOIN department ON role.department_id = department.id WHERE department.id = ' + [id], (err, res) => {
                 if (err) throw err;
-                console.log(department + '\n');
+                console.log(department + ":");
                 console.table(res);
                 optionFunction();
             });
         });
     });
 };
+
+// Allows the user to view all the employees by roles on the database
+function viewEmployeeByRole() {
+    connection.query('SELECT title')
+}
 
 // Allows the user to view all the departments on the database
 function viewAllDept() {
@@ -128,7 +129,7 @@ function viewAllDept() {
 
 // Allows the user to view all the roles on the database
 function viewAllRoles() {
-    connection.query('SELECT * FROM department', (err, res) => {
+    connection.query('SELECT * FROM role', (err, res) => {
         if (err) throw err;
         console.table(res);
         optionFunction();
