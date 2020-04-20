@@ -25,7 +25,6 @@ function optionFunction() {
         switch(option) {
             case 'View All Employees':
                 viewAllEmployee();
-                optionFunction();
                 break;
             case 'View All Employees by Department':
                 viewEmployeeByDept();
@@ -41,11 +40,9 @@ function optionFunction() {
                 break;
             case 'View All Department':
                 viewAllDept();
-                optionFunction();
                 break;
             case 'View All Roles':
                 viewAllRoles();
-                optionFunction();
                 break;
             case 'Add Employee':
                 console.log(option);
@@ -75,6 +72,7 @@ function viewAllEmployee() {
     connection.query('SELECT * FROM employee', (err, res) => {
         if (err) throw err;
         console.table(res);
+        optionFunction();
     });
 };
 
@@ -91,6 +89,7 @@ function viewAllDept() {
     connection.query('SELECT * FROM department', (err, res) => {
         if (err) throw err;
         console.table(res);
+        optionFunction();
     });
 };
 
@@ -99,6 +98,7 @@ function viewAllRoles() {
     connection.query('SELECT * FROM department', (err, res) => {
         if (err) throw err;
         console.table(res);
+        optionFunction();
     });
 };
 
