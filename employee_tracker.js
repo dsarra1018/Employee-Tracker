@@ -63,6 +63,7 @@ function optionFunction() {
                 break;
             case 'Exit':
                 console.log('Good-bye!');
+                connection.end();
                 break;
         };
     });
@@ -72,8 +73,10 @@ function viewAllEmployee() {
     connection.query('SELECT * FROM employee', (err, res) => {
         if (err) throw err;
         console.table(res);
-    })
-}
+    });
+};
+
+
 
 // Prompts
 const optionsPrompt = [
