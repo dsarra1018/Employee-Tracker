@@ -44,7 +44,7 @@ function optionFunction() {
                 optionFunction();
                 break;
             case 'View All Roles':
-                console.log(option);
+                viewAllRoles();
                 optionFunction();
                 break;
             case 'Add Employee':
@@ -85,10 +85,15 @@ function viewAllDept() {
         if (err) throw err;
         console.table(res);
     });
-}
+};
 
-
-
+// Allows the user to view all the roles on the database
+function viewAllRoles() {
+    connection.query('SELECT * FROM department', (err, res) => {
+        if (err) throw err;
+        console.table(res);
+    });
+};
 
 // Prompts
 const optionsPrompt = [
