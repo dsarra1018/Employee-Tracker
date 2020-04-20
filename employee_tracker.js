@@ -1,6 +1,6 @@
 // Dependencies
 const inquirer = require('inquirer');
-//const connection = require('./js/connection');
+const connection = require('./js/connection');
 
 // Initializes Content Management Systems
 function employeeTracker() {
@@ -22,7 +22,7 @@ function optionFunction() {
     inquirer.prompt(optionsPrompt).then( ({option}) => {
         switch(option) {
             case 'View All Employees':
-                console.log(option);
+                viewAllEmployee();
                 optionFunction();
                 break;
             case 'View All Employees by Department':
@@ -67,6 +67,13 @@ function optionFunction() {
         };
     });
 };
+
+function viewAllEmployee() {
+    connection.query('SELECT * FROM employee', (err, res) => {
+        if (err) throw err;
+        console.table(res);
+    })
+}
 
 // Prompts
 const optionsPrompt = [
