@@ -1,5 +1,4 @@
 // Dependencies
-const inquirer = require('inquirer');
 const mysql = require('mysql');
 
 // MySQL DB Connection Information
