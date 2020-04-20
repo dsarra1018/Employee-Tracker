@@ -21,7 +21,7 @@ function employeeTracker() {
 
 // Prompts the user to select an action
 function optionFunction() {
-    inquirer.prompt(optionsPrompt).then( ({option}) => {
+    inquirer.prompt(optionsPrompt).then(({option}) => {
         switch(option) {
             case 'View All Employees':
                 viewAllEmployee();
@@ -102,6 +102,16 @@ function viewAllRoles() {
     });
 };
 
+// Allows the user to add a role on the 'role' table
+function addRole() {
+    inquirer.prompt(addRolePrompt).then(({title, salary, department}) => {
+        connection.query("INSERT INTO role (title, salary, department_id) VALUES (?);", [title, salary, department], (err, res) => {
+            if (err) throw err;
+            console.log(`${title} has been successfully added into the role table.`);
+        });
+    });
+};
+
 // Allows the user to add a department on the 'department' table
 function addDept() {
     inquirer.prompt(addDeptPrompt).then(dept => {
@@ -109,9 +119,9 @@ function addDept() {
             if (err) throw err;
             console.log(`${dept.name} has been successfully added into the department table.`);
             optionFunction();
-        })
-    })
-}
+        });
+    });
+};
 
 // Prompts
 const optionsPrompt = [
@@ -128,6 +138,24 @@ const addDeptPrompt = [
         type: 'input',
         name: 'name',
         message: 'What department would you like to create?'
+    }
+]
+
+const addRolePrompt = [
+    {
+        type: 'input',
+        name: 'title',
+        message: 'What role would you like to create?'
+    },
+    {
+        type: 'input',
+        name: 'salary',
+        message: 'How much salary does this role makes?'
+    },
+    {
+        type: 'input',
+        name: 'department',
+        message: 'Which department does this role belongs in?'
     }
 ]
 
