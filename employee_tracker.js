@@ -28,7 +28,6 @@ function optionFunction() {
                 break;
             case 'View All Employees by Department':
                 viewEmployeeByDept();
-                optionFunction();
                 break;
             case 'View All Employees by Roles':
                 console.log(option);
@@ -78,9 +77,43 @@ function viewAllEmployee() {
 
 // Allows the user to view all the employees by department on the database
 function viewEmployeeByDept() {
-    connection.query("SELECT employee.first_name, employee.last_name FROM employee LEFT JOIN role ON role.id = employee.role_id LEFT JOIN department ON role.department_id = department.id ORDER BY department.id", (err, res) => {
+    // connection.query("SELECT employee.first_name, employee.last_name FROM employee LEFT JOIN role ON role.id = employee.role_id LEFT JOIN department ON role.department_id = department.id ORDER BY department.id", (err, res) => {
+    //     if (err) throw err;
+    //     console.table(res);
+    // });
+    connection.query('SELECT name from department', (err, res) => {
         if (err) throw err;
-        console.table(res);
+        
+        const dept_arr = [];
+
+        for(let i = 0; i < res.length; i++) {
+            dept_arr.push(res[i].name);
+        };
+
+        inquirer.prompt([
+            {
+                type: 'list',
+                name: 'department',
+                message: 'Which department would you like to view?',
+                choices: dept_arr
+            }
+        ]).then(({department}) => {
+            let id;
+
+            for(let i = 0; i < dept_arr.length; i++) {
+                if (dept_arr[i] === department) {
+                    id = i + 1;
+
+                };
+            };
+
+            connection.query('SELECT first_name, last_name, title, salary FROM employee LEFT JOIN role ON role.id = employee.role_id LEFT JOIN department ON role.department_id = department.id WHERE department.id = ' + [id], (err, res) => {
+                if (err) throw err;
+                console.log(department + '\n');
+                console.table(res);
+                optionFunction();
+            });
+        });
     });
 };
 
