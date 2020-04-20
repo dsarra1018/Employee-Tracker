@@ -56,8 +56,7 @@ function optionFunction() {
                 optionFunction();
                 break;
             case 'Add Department':
-                console.log(option);
-                optionFunction();
+                addDept();
                 break;
             case 'Update Roles':
                 console.log(option);
@@ -103,6 +102,17 @@ function viewAllRoles() {
     });
 };
 
+// Allows the user to add a department on the 'department' table
+function addDept() {
+    inquirer.prompt(addDeptPrompt).then(dept => {
+        connection.query("INSERT INTO department (name) VALUES (?);", [dept.name], (err, res) => {
+            if (err) throw err;
+            console.log(`${dept.name} has been successfully added into the department table.`);
+            optionFunction();
+        })
+    })
+}
+
 // Prompts
 const optionsPrompt = [
     {
@@ -112,5 +122,13 @@ const optionsPrompt = [
         choices: ['View All Employees', 'View All Employees by Department', 'View All Employees by Roles', 'View All Employees by Manager', 'View All Department', 'View All Roles', new inquirer.Separator(), 'Add Employee', 'Add Roles', 'Add Department', new inquirer.Separator(), 'Update Roles', new inquirer.Separator(), 'Exit']
     }
 ];
+
+const addDeptPrompt = [
+    {
+        type: 'input',
+        name: 'name',
+        message: 'What department would you like to create?'
+    }
+]
 
 employeeTracker();
