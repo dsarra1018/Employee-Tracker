@@ -13,8 +13,58 @@ function employeeTracker() {
     +===========================================+`)
 
     // Prompts user for action
+    optionFunction();
+    
+};
+
+// Function
+function optionFunction() {
     inquirer.prompt(optionsPrompt).then( ({option}) => {
-        console.log(`You selected to ${option}`);
+        switch(option) {
+            case 'View All Employees':
+                console.log(option);
+                optionFunction();
+                break;
+            case 'View All Employees by Department':
+                console.log(option);
+                optionFunction();
+                break;
+            case 'View All Employees by Roles':
+                console.log(option);
+                optionFunction();
+                break;
+            case 'View All Employees by Manager':
+                console.log(option);
+                optionFunction();
+                break;
+            case 'View All Department':
+                console.log(option);
+                optionFunction();
+                break;
+            case 'View All Roles':
+                console.log(option);
+                optionFunction();
+                break;
+            case 'Add Employee':
+                console.log(option);
+                optionFunction();
+                break;
+            case 'Add Roles':
+                console.log(option);
+                optionFunction();
+                break;
+            case 'Add Department':
+                console.log(option);
+                optionFunction();
+                break;
+            case 'Update Roles':
+                console.log(option);
+                optionFunction();
+                break;
+            case 'Exit':
+                console.log('Good-bye!');
+                break;
+        };
     });
 };
 
